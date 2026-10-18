@@ -7,6 +7,9 @@
 extern "C" {
 #endif
 
+extern const lv_font_t ui_font_monserrat_acc14;
+extern const lv_font_t ui_font_monserrat_acc16;
+
 #ifndef EXT_FONT_DESC_T
 #define EXT_FONT_DESC_T
 typedef struct _ext_font_desc_t {

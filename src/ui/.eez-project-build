@@ -13,14 +13,17 @@
     "styles.h",
     "ui.c",
     "ui.h",
+    "ui_font_monserrat_acc14.c",
+    "ui_font_monserrat_acc16.c",
     "ui_image_battery_green.c",
     "ui_image_histo_icon.c",
     "ui_image_info_icon.c",
-    "ui_image_molly.c",
-    "ui_image_no_wifi_icon.c",
-    "ui_image_rantanplan.c",
-    "ui_image_wifi_green_icon.c",
+    "ui_image_medic_icon.c",
+    "ui_image_menu_bone.c",
+    "ui_image_moly_med.c",
+    "ui_image_walk_icon.c",
     "ui_image_wifi_icon.c",
+    "ui_image_wifi_no_icon.c",
     "vars.h"
   ]
 }

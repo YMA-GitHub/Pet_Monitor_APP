@@ -7,7 +7,7 @@
 #include ".\src\ui\vars.h"
 #include ".\src\ui\actions.h"
 
-#include ".\src\cloud\thingProperty.h"
+#include ".\src\cloud\thingProperties.h"
 #include ".\src\date_heure\date_heure.h"
 
 #define EXAMPLE_LVGL_TICK_PERIOD_MS 2
@@ -180,13 +180,14 @@ void setup() {
   
   //--@debug -Arduino Cloud section-----------
   // Defined in thingProperties.h
-  //initProperties();
+  initProperties();
   //---Connect to Arduino IoT Cloud
-  // ArduinoCloud.begin(ArduinoIoTPreferredConnection);
-  // setDebugMessageLevel(4);
-  // ArduinoCloud.printDebugInfo();
-
-  // Initialisation avec la date de référence.
+  ArduinoCloud.begin(ArduinoIoTPreferredConnection);
+  setDebugMessageLevel(4);
+  ArduinoCloud.printDebugInfo();
+  Serial.println("Stating without Arduino IoT Cloud...");
+  
+  // Initialisation avec la date de référence en dur.
   bool result;
   result = date_heure_init("18-oct-26 11h15", millis());
   if (result) {
@@ -197,6 +198,19 @@ void setup() {
     }
 }
 
+//-----------Arduino Cloud procedures----------------------------------
+void onPetDateHourChange()  {
+  // Add your code here to act upon PetDateHour change
+  set_var_date_full(pet_date_hour.c_str());
+}
+/*
+  Since SendDate is READ_WRITE variable, onSendDateChange() is
+  executed every time a new value is received from IoT Cloud.
+*/
+
+void onSendDateChange()  {
+  // Add your code here to act upon SendDate change
+}
 //-----------MAIN SECTION-----------------------------------------------
 void loop() {
   lv_timer_handler(); /* Let the LVGL GUI handle its tasks (such as animations, events, etc.) */
