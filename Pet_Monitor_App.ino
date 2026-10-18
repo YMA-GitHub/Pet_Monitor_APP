@@ -8,6 +8,7 @@
 #include ".\src\ui\actions.h"
 
 #include ".\src\cloud\thingProperty.h"
+#include ".\src\date_heure\date_heure.h"
 
 #define EXAMPLE_LVGL_TICK_PERIOD_MS 2
 
@@ -77,14 +78,33 @@ void example_increase_lvgl_tick(void *arg) {
 /* --- UI Interface Code --- */
 
 
+void refresh_date() {
+  // Update the date and time variable for the UI
+    // Exemple de lecture et affichage.
+    static uint32_t dernier_affichage = 0;
+    char affichage[24];
+    if ((uint32_t)(millis() - dernier_affichage) >= 1000U) {
+        dernier_affichage = millis();
 
+        if (date_heure_format_sec(affichage, sizeof(affichage)) >= 0) {
+            Serial.println(affichage);
+            // set the Date without sec for the GUI
+            date_heure_format_min(affichage, sizeof(affichage));
+            set_var_date_full(affichage);
+            // Set the hours for the historic popup in GUI 
+            date_heure_format_hours(affichage, sizeof(affichage));
+            set_var_date_hours(affichage);
+        }
+    }
+
+  
+}
 
 //--------------SETUP section--------------------------------------
 void setup() {
   // @YMA debug
   Serial.begin(115200);
-  delay(2000);
-  Serial.println("PUSH BUTTON DEMO STARTED");
+  delay(1000);
   // 1. Hardware Initialization
   // First, complete all initialization for direct communication with physical hardware (screen, touch, backlight, etc.).
   
@@ -165,6 +185,16 @@ void setup() {
   // ArduinoCloud.begin(ArduinoIoTPreferredConnection);
   // setDebugMessageLevel(4);
   // ArduinoCloud.printDebugInfo();
+
+  // Initialisation avec la date de référence.
+  bool result;
+  result = date_heure_init("18-oct-26 11h15", millis());
+  if (result) {
+      Serial.println("Horloge initialisee.");
+  } else {
+       Serial.println("Erreur de date/heure ! Code: ");
+       Serial.println(result);
+    }
 }
 
 //-----------MAIN SECTION-----------------------------------------------
@@ -172,24 +202,9 @@ void loop() {
   lv_timer_handler(); /* Let the LVGL GUI handle its tasks (such as animations, events, etc.) */
   delay(5);
   ui_tick();
-
+  // Mise à jour non bloquante.
+  date_heure_update(millis());
+  refresh_date();
   // @debug ArduinoCloud.update();
 }
 
-/*
-  Since PetMedic is READ_WRITE variable, onPetMedicChange() is
-  executed every time a new value is received from IoT Cloud.
-*/
-
-void onPetMedicChange()  {
-  // Add your code here to act upon PetMedic change
-  //set_var_medic_nb(pet_Medic) ;
-}
-/*
-  Since PetSorties is READ_WRITE variable, onPetSortiesChange() is
-  executed every time a new value is received from IoT Cloud.
-*/
-void onPetSortiesChange()  {
-  // Add your code here to act upon PetSorties change
- //pet_sorties = (int)get_var_sortie_nb();
-}

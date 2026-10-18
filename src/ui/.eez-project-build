@@ -13,8 +13,14 @@
     "styles.h",
     "ui.c",
     "ui.h",
+    "ui_image_battery_green.c",
+    "ui_image_histo_icon.c",
+    "ui_image_info_icon.c",
     "ui_image_molly.c",
+    "ui_image_no_wifi_icon.c",
     "ui_image_rantanplan.c",
+    "ui_image_wifi_green_icon.c",
+    "ui_image_wifi_icon.c",
     "vars.h"
   ]
 }
